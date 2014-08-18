@@ -7,11 +7,17 @@ RewriteEngine On
 #
 # RewriteBase /
 
-RewriteCond %{REQUEST_URI} \.ini$
-RewriteRule \.ini$ - [R=404]
+#RewriteCond %{REQUEST_URI} \.ini$
+#RewriteRule \.ini$ - [R=404]
+#RewriteRule \.css$ - %{REQUEST_URI}
+#RewriteRule \.php$ - [R=404]
 
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule .* index.php [L,QSA]
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+#RewriteCond %{REQUEST_FILENAME} !-l
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond \.css$ !-f
+#RewriteRule .* index.php [L,QSA]
+#RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+RewriteCond $1 !^(index\.php|js|css|robots\.txt)
+RewriteRule ^(.*)$ index.php/$1 [L]
