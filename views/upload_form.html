@@ -6,12 +6,35 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>{{ @upload_form.title }}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <form>
+            <label>
+                <input type="file" name="file" />
+                <div>
+                {{ @upload_form.form.input_label }}
+                </div>
+            </label>
+        </form>
         
+        <div>
+            <div>{{ @upload_form.how_to_use.caption }}</div>
+            <div>{{ @how_to_use_content }}</div>
+        </div>
+        
+        <div>
+            <a href="https://github.com/pulipulichen/php-file-host" target="github">{{ @upload_form.footer.github }}</a>
+            - 
+            <a href="http://pulipuli.blogspot.tw" target="blogger">{{ @upload_form.footer.blogger }}</a>
+            - 
+            <a href="http://dlll.nccu.edu.tw" target="dlll">{{ @upload_form.footer.dlll }}</a>
+        </div>
+        <div>
+            
+         <a href="http://pulipuli.blogspot.tw" target="blogger">{{ @upload_form.footer.author }}</a> @ {{ @readme_update_year }}
+        </div>
     </body>
 </html>
