@@ -3,6 +3,8 @@
 // 必要的載入
 $f3 = require('lib/base.php');
 
+require_once 'redbeanphp/rb.php';
+
 $f3->config('config.ini');
 
 $f3->route('POST /', 'File_host->upload');
