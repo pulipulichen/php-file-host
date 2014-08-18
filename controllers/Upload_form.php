@@ -8,6 +8,11 @@
  */
 class Upload_form {
     function display_view() {
-        echo "upload form 1";
+        
+        $file = R::dispense("file");
+        $file->title="哈利波特";
+        $id = R::store($file);
+        
+        echo "upload form " . $id;
     }
 }

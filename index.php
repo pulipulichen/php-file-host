@@ -2,18 +2,31 @@
 
 // 必要的載入
 $f3 = require('lib/base.php');
-
-require_once 'redbeanphp/rb.php';
-
 $f3->config('config.ini');
 
+// -------------------------
+// 資料庫設定
+require_once 'redbeanphp/rb.php';
+$database_host = $f3->get('DATABASE.host');
+if (strpos($database_host, "sqlite:") === 0) {
+    R::setup($database_host);
+}
+else {
+    R::setup($database_host
+            , $f3->get('DATABASE.user')
+            , $f3->get('DATABASE.password'));
+}
+
+/*
 $f3->route('POST /', 'File_host->upload');
 $f3->route('GET /', 'Upload_form->display_view');
 $f3->route('GET /upload_form', 'Upload_form->display_view');
 $f3->route('GET /get/@hash/@filename', 'File_manage->get_file');
+*/
+//$f3->route('GET /app', 'Upload_form->display_view');
 
-$f3->route('GET /app', 'Upload_form->display_view');
 
+// 正式執行
 $f3->run();
 
 /**
