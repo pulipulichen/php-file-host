@@ -11,18 +11,22 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form>
+        <form action="{{ @BASE }}/upload" method="post">
             <label>
                 <input type="file" name="file" />
                 <div>
                 {{ @upload_form.form.input_label }}
                 </div>
             </label>
+            <button type="submit">{{ @upload_form.form.submit }}</button>
+            <input type="hidden" name="upload" value="true" />
         </form>
         
         <div>
             <div>{{ @upload_form.how_to_use.caption }}</div>
-            <div>{{ @how_to_use_content }}</div>
+            <div>
+                {{ @how_to_use_content | raw }}
+            </div>
         </div>
         
         <div>

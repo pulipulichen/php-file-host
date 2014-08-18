@@ -4,6 +4,7 @@ return array(
         'title'=>'PHP File Host',
         'form' => array(
             'input_label'=> 'Upload Your File and Get a Link.',
+            'submit' => "UPLOAD"
         ),
         'how_to_use' => array(
             'caption' => "How to Use",
