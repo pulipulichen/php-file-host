@@ -8,55 +8,63 @@
  */
 class File_host {
     function upload($f3) {
-        //print_r($f3->get('POST'));
-        //echo $f3->exists('POST.upload')."12121";
-        /*
-        if ($f3->exists("POST.upload")) {
-            echo "file uploaded";
+        $file = $_FILES["file"];
+        var_dump($file);
+        
+        $validate_result = $this->_validate_file($f3, $file);
+        
+        if ($validate_result === TRUE) {
+            $tmp_path = $_FILES["file"]["tmp_name"];
+            $md5 = md5_file($tmp_path);
+
+            echo $md5;
+
+
+
+            $file_path = $this->_get_file_path_from_md5($f3, $md5);
+
+            move_uploaded_file($tmp_path,
+                 $file_path);
+            
+            
         }
         else {
-            $f3->reroute("/");
+            // upload faild
         }
-        */
-//        $overwrite = true; // set to true, to overwrite an existing file; Default: false
-//        $slug = true; // rename file to filesystem-friendly version
-//        
-//        $web = \Web::instance();
-//        $files = $web->receive(function($file,$formFieldName){
-//                var_dump($file);
-//                /* looks like:
-//                  array(5) {
-//                      ["name"] =>     string(19) "csshat_quittung.png"
-//                      ["type"] =>     string(9) "image/png"
-//                      ["tmp_name"] => string(14) "/tmp/php2YS85Q"
-//                      ["error"] =>    int(0)
-//                      ["size"] =>     int(172245)
-//                    }
-//                */
-//                // $file['name'] already contains the slugged name now
-//                
-//                $file['name'] = 'text.txt';
-//
-//                // maybe you want to check the file size
-//                if($file['size'] > (2 * 1024 * 1024)) { // if bigger than 2 MB
-//                    return false; // this file is not valid, return false will skip moving it
-//                }
-//                
-//                // everything went fine, hurray!
-//                return true; 
-//                // allows the file to be moved from php tmp dir to your defined upload dir
-//            },
-//            $overwrite,
-//            $slug
-//        );
-//
-//        var_dump($files);
-        var_dump($_FILES["file"]);
+    }
+    
+    private function _validate_file($f3, $file) {
         
-        $tmp_path = $_FILES["file"]["tmp_name"];
-        $md5 = md5_file($tmp_path);
-        echo $md5;
+        // 檢查檔案大小
+        if ($this->_validate_file_size($f3, $file) === FALSE) {
+            return FALSE;
+        }
         
+        // 檢查檔案類型
+        $acceptable_mine = $f3->get("UPLOAD.mimetype");
+        $mine = $file['type'];
+        if (in_array($mine, $acceptable_mine) === FALSE) {
+            //echo "f";
+            return FALSE;
+        }
+        
+        //echo "t";
+        return TRUE;
+    }
+    
+    private function _validate_file_size($f3, $file) {
+        // 檢查檔案
+        $filesize = $f3->get("UPLOAD.filesize");
+        $filesize = $this->_get_filesize_in_bytes($filesize);
+        if ($file['size'] > $filesize) {
+            return FALSE;
+        }
+        else {
+            return TRUE;
+        }
+    }
+    
+    private function _get_file_path_from_md5($f3, $md5) {
         $path1 = substr($md5, 0, 2);
         $path2 = substr($md5, 2, 2);
         $file_name = substr($md5, 4);
@@ -71,8 +79,68 @@ class File_host {
         }
         $file_path = $file_dir . $file_name;
         
-        move_uploaded_file($tmp_path,
-             $file_path);
+        return $file_path;
+    }
+    
+    private function _get_filesize_in_bytes($filesize) {
+        if (is_int($filesize)) {
+            return $filesize;
+        }
+        else {
+            $filesize = strtoupper($filesize);
+            $footer_len = 0;
+            $multiple = 0;
+            if (strpos($filesize, "B") !== FALSE) {
+                $footer_len = 1;
+            }
+            else if (strpos($filesize, "KB") !== FALSE) {
+                $footer_len = 2;
+                $multiple = 1;
+            }
+            else if (strpos($filesize, "K") !== FALSE) {
+                $footer_len = 1;
+                $multiple = 1;
+            }
+            else if (strpos($filesize, "MB") !== FALSE) {
+                $footer_len = 2;
+                $multiple = 2;
+            }
+            else if (strpos($filesize, "M") !== FALSE) {
+                $footer_len = 1;
+                $multiple = 2;
+            }
+            else if (strpos($filesize, "GB") !== FALSE) {
+                $footer_len = 2;
+                $multiple = 3;
+            }
+            else if (strpos($filesize, "G") !== FALSE) {
+                $footer_len = 1;
+                $multiple = 3;
+            }
+            else if (strpos($filesize, "TB") !== FALSE) {
+                $footer_len = 2;
+                $multiple = 4;
+            }
+            else if (strpos($filesize, "T") !== FALSE) {
+                $footer_len = 1;
+                $multiple = 4;
+            }
+            else if (strpos($filesize, "PB") !== FALSE) {
+                $footer_len = 2;
+                $multiple = 5;
+            }
+            else if (strpos($filesize, "P") !== FALSE) {
+                $footer_len = 1;
+                $multiple = 5;
+            }
+            
+            $filesize = substr($filesize, 0, strlen($filesize) - $footer_len);
+            $filesize = intval($filesize);
+            
+            $multiple = pow(1024, $multiple);
+            $filesize = $filesize * $multiple;
+            return $filesize;
+        }
         
     }
 }
