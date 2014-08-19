@@ -166,7 +166,7 @@ class File_host {
         $data["md5"] = $md5;
         
         // 上傳IP
-        $client_ip = $this->_get_client_ip();
+        $client_ip = Client_utils::get_client_ip();
         $data["client_ip"] = $client_ip;
         
         // 來源網頁
@@ -181,11 +181,7 @@ class File_host {
         $deleted = FALSE;
         $data["deleted"] = $deleted;
         
-        $hash = base_convert(
-            sprintf('%u',crc32(1000)),10,36
-        );
-        //$hash = strtr(base64_encode(1000), '+/=', '-_,');
-        $hash = $this->base56_encode(100000000);
+        $hash = Base56::encode(1000000);
         $data["hash"] = $hash;
         
         
@@ -194,79 +190,4 @@ class File_host {
         
     }
     
-    /**
-     * 取得使用者的IP資訊
-     * @return String
-     */
-    private function _get_client_ip()
-    {
-        $myip = NULL;
-        if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $myip = $_SERVER['REMOTE_ADDR'];
-        } else {
-            $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $myip = $myip[0];
-        }
-        
-        if ($myip === "::1") {
-            $myip = NULL;
-        }
-        return $myip;
-    }
-    
-    // URL保留文字 http://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
-    var $_alphabet_raw = '0123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ_-.~';
-    
-    function base56_encode($num){
-        $alphabet = str_split($this->_alphabet_raw);
-        
-        /*
-            Encode a number in Base X
-
-        `num`: The number to encode
-        `alphabet`: The alphabet to use for encoding
-        */
-        if ($num == 0){
-            return 0;
-            }
-
-            $n = str_split($num);
-        $arr = array();
-        $base = sizeof($alphabet);
-
-        while($num){
-            $rem = $num % $base;
-            $num = (int)($num / $base);
-            $arr[]=$alphabet[$rem];
-            }
-
-        $arr = array_reverse($arr);
-        return implode($arr);
-    }
-
-    function base56_decode($string){
-        $alphabet = str_split($this->_alphabet_raw);
-        /*
-            Decode a Base X encoded string into the number
-
-        Arguments:
-        - `string`: The encoded string
-        - `alphabet`: The alphabet to use for encoding
-        */
-
-        $base = sizeof($alphabet);
-        $strlen = strlen($string);
-        $num = 0;
-        $idx = 0;
-
-            $s = str_split($string);
-            $tebahpla = array_flip($alphabet);
-
-        foreach($s as $char){
-            $power = ($strlen - ($idx + 1));
-            $num += $tebahpla[$char] * (pow($base,$power));
-            $idx += 1;
-            }
-        return $num;
-    }
 }
