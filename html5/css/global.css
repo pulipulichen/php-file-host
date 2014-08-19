@@ -8,3 +8,9 @@ and open the template in the editor.
     Author     : pudding
 */
 
+footer .container {
+    text-align: center;
+}
+.img-responsive {
+    margin: 0 auto;
+}

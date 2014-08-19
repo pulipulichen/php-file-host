@@ -19,5 +19,5 @@ RewriteEngine On
 #RewriteRule .* index.php [L,QSA]
 #RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 
-RewriteCond $1 !^(index\.php|ext_apps|html5|robots\.txt)
+RewriteCond $1 !^(index\.php|ext_apps|html5|LICENSE|README.md|robots\.txt)
 RewriteRule ^(.*)$ index.php/$1 [L]

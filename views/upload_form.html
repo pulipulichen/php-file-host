@@ -11,6 +11,9 @@
 
     <title>{{ @upload_form.title }}</title>
 
+    <!-- PHP File Host CSS -->
+    <link href="{{ @BASE }}/html5/css/global.css" rel="stylesheet">
+    
     <!-- Bootstrap Core CSS -->
     <link href="{{ @BASE }}/html5/landing-page/css/bootstrap.min.css" rel="stylesheet">
 
@@ -40,7 +43,7 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">{{ @upload_form.navbar.toggle }}</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -51,16 +54,16 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#how_to_use">How to Use</a>
+                        <a href="#how_to_use">{{ @upload_form.how_to_use.caption }}</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="#contact">{{ @upload_form.navbar.contact }}</a>
                     </li>
                     <li>
-                        <a href="http://pulipuli.blogspot.tw/" target="blog">Blog</a>
+                        <a href="http://pulipuli.blogspot.tw/" target="blog">{{ @upload_form.navbar.blog }}</a>
                     </li>
                     <li>
-                        <a href="https://github.com/pulipulichen/php-file-host" target="github">GitHub <i class="fa fa-github fa-fw"></i></a>
+                        <a href="https://github.com/pulipulichen/php-file-host" target="github">{{ @upload_form.navbar.github }} <i class="fa fa-github fa-fw"></i></a>
                     </li>
                 </ul>
             </div>
@@ -130,16 +133,22 @@
     <div class="content-section-b">
         <a id="how_to_use" name="how_to_use"></a>
         <div class="container">
-
             <div class="row">
-                <div class="col-lg-3 col-sm-3">
-                    <img class="img-responsive" src="{{ @BASE }}/html5/landing-page/img/certificate-260529_640.jpg" alt="">
-                </div>
-                <div class="col-lg-8 col-lg-offset-1 col-sm-9">
-                    <hr class="section-heading-spacer">
+                {*
+                如何在不同螢幕尺寸中調整大小呢？
+                請看Bootstrap的說明：http://getbootstrap.com/css/#grid
+                *}
+                
+                <!-- <div class="col-lg-8 col-lg-offset-1 col-sm-9"> -->
+                <div class="col-lg-7 col-lg-offset-1 col-lg-push-4 col-sm-7 col-sm-push-4 col-xs-10 col-xs-offset-1">
+                    <hr class="section-heading-spacer" />
                     <div class="clearfix"></div>
                     <h2 class="section-heading">{{ @upload_form.how_to_use.caption }}</h2>
                     <p class="lead">{{ @how_to_use_content | raw }}</p>
+                </div>
+                <!-- <div class="col-lg-3 col-sm-3"> -->
+                <div class="col-lg-3 col-lg-pull-8 col-lg-offset-1 col-sm-3 col-sm-pull-8 col-sm-offset-1 col-xs-6 col-xs-offset-3">
+                    <img class="img-responsive" src="{{ @BASE }}/html5/landing-page/img/certificate-260529_640.jpg" alt="">
                 </div>
             </div>
 
@@ -151,27 +160,25 @@
 
     <!-- Footer -->
     <footer>
+        <a id="contact" name="contact"></a>
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 ">
+                <div class="col-lg-12">
                     <ul class="list-inline center">
                         <li>
-                            <a href="#home">Home</a>
+                            <a href="http://pulipuli.blogspot.tw/" target="blog">{{ @upload_form.navbar.blog }}</a>
                         </li>
                         <li class="footer-menu-divider">&sdot;</li>
                         <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li class="footer-menu-divider">&sdot;</li>
-                        <li>
-                            <a href="#contact">Contact</a>
+                            <a href="https://github.com/pulipulichen/php-file-host" target="github">{{ @upload_form.navbar.github }}</a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                    <p class="copyright text-muted small">
+                        {{ @upload_form.license.description | raw }} 
+                        <br />                        
+                        <a href="http://pulipuli.blogspot.tw" target="blogger">{{ @upload_form.license.author }}</a>
+                        {{ @readme_update_year }}. 
+                    </p>
                 </div>
             </div>
         </div>
