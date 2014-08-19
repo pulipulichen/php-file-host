@@ -1,5 +1,4 @@
 <?php
-
 // 必要的載入
 $f3 = require('lib/base.php');
 

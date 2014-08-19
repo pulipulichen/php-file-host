@@ -6,7 +6,7 @@
  *
  * @author pudding 20140819
  */
-class Client_utils {
+class PFH_Client_utils {
     
     /**
      * 取得使用者的IP資訊
