@@ -3,12 +3,12 @@
  * View and Template
  * 做法請看 http://fatfreeframework.com/views-and-templates#conditional-segments
  *}
-<check if="{{ @callback=='' }}">
+<check if="{{ @GET.callback=='' }}">
     <true>
         {{ @json | json_encode }}
     </true>
     <false>
-        {{ @callback }}({{ @json | json_encode }});
+        {{ @GET.callback }}({{ @json | json_encode }});
     </false>
 </check>
     

@@ -33,6 +33,7 @@ class File_host {
         
         
         // 召喚session
+        /*
         $db = $f3->get("DATABASE.host");
         if (String_helper::starts_with($db, "sqlite:") === TRUE 
                 && String_helper::starts_with($db, "sqlite:/") === FALSE) {
@@ -43,7 +44,7 @@ class File_host {
             $db = "sqlite:phpfilehost.sqlite.db";
             echo $db;
         }            
-        
+        */
         if ($validate_result === TRUE) {
             $tmp_path = $_FILES["file"]["tmp_name"];
             $md5 = md5_file($tmp_path);
@@ -64,20 +65,29 @@ class File_host {
             $f3->clear($this->session_key);
         }
         
-        $f3->reroute("/upload");
+        // -------------------------
+        // reroute
+        
+        $reroute = "/upload";
+        if ($f3->exists("GET.callback")) {
+            $reroute = $reroute . "?callback=" . $f3->get("GET.callback");
+        }
+        
+        $f3->reroute($reroute);
         return $this;
     }
     
     public function get_link($f3) {
         
-        if ($f3->exists($this->session_key)) {
+        if ($f3->exists($this->session_key) === FALSE) {
             $f3->reroute("/");
             return $this;
         }
         
-        $result = "http://www.google.com.tw";
-        
-        //$result = PFH_File::get_link($f3, $bean);
+        $id = $f3->get($this->session_key);
+        //echo $id;
+        $bean = PFH_File::get($id);
+        $result = PFH_File::get_link($f3, $bean);
         
         //$json = json_encode($result);
         $f3->set("json", $result);

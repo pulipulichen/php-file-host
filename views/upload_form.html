@@ -11,7 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="{{ @BASE }}/upload" method="post" enctype="multipart/form-data">
+        <form action="{{ @BASE }}/upload?callback=test" method="post" enctype="multipart/form-data">
             <label>
                 <input type="file" name="file" />
                 <div>{{ @upload_form.form.input_label }}</div>

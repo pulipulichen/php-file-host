@@ -75,9 +75,11 @@ class PFH_File {
         //$hash = Base56::encode(1000000);
         //$data["hash"] = $hash;
         
-        //var_dump($bean);
+        
         //R::store($bean);
-        //echo $bean->id;
+        $bean->id = 9;
+        
+        echo $bean->id;
         
         return $bean;
     }

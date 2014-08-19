@@ -16,7 +16,7 @@ class Template_json extends \Template {
      * @return String
      */
     public function json_encode($val) {
-        //$val = json_encode($val);
+        $val = json_encode($val);
         return $val;
     }
 }

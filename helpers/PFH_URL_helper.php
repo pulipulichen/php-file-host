@@ -22,13 +22,15 @@ class PFH_URL_helper {
         $protocol = $f3->get("SCHEME");
         //$host = $_SERVER["HTTP_HOST"];
         $host = $f3->get("HOST");
-        $port = $f3->get("POST");
+        $port = $f3->get("PORT");
         $uri = $f3->get("BASE");
         
         $url = $protocol . "://" . $host;
+        
         if (isset($port) 
                 && $port !== "" 
-                && $port !== "80") {
+                && $port !== "80"
+                && $port !== 80) {
             $url = $url . ":" . $port;
         }
         
