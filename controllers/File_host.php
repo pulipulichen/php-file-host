@@ -9,28 +9,31 @@
 class File_host {
     function upload($f3) {
         $file = $_FILES["file"];
-        var_dump($file);
+        //var_dump($file);
         
         $validate_result = $this->_validate_file($f3, $file);
+        
+        $result = FALSE;
         
         if ($validate_result === TRUE) {
             $tmp_path = $_FILES["file"]["tmp_name"];
             $md5 = md5_file($tmp_path);
-
-            echo $md5;
-
-
-
             $file_path = $this->_get_file_path_from_md5($f3, $md5);
 
-            move_uploaded_file($tmp_path,
-                 $file_path);
-            
-            
+            if (is_file($file_path) === FALSE) {
+                move_uploaded_file($tmp_path,
+                     $file_path);
+            }
+          
+            $result = $this->_db_record_create($f3, $file, $md5);
+            $result = "http://www.googl.com.tw";
         }
-        else {
-            // upload faild
-        }
+        
+        $json = json_encode($result);
+        $f3->set("json", $json);
+        
+        $template = new Template;
+        echo $template->render("callback.js", 'text/javascript');
     }
     
     private function _validate_file($f3, $file) {
@@ -141,6 +144,129 @@ class File_host {
             $filesize = $filesize * $multiple;
             return $filesize;
         }
+    }
+    
+    private function _db_record_create($f3, $file, $md5) {
+        $data = array();
         
+        // 檔案名稱
+        $filename = $file['name'];
+        $data["filename"] = $filename;
+        
+        // 檔案大小
+        $filesize = $file['size'];
+        $data["filesize"] = $filesize;
+        
+        // 檔案類型
+        $filetype = $file['type'];
+        $data["filetype"] = $filetype;
+        
+        // md5
+        // $md5
+        $data["md5"] = $md5;
+        
+        // 上傳IP
+        $client_ip = $this->_get_client_ip();
+        $data["client_ip"] = $client_ip;
+        
+        // 來源網頁
+        $http_referer = getenv("HTTP_REFERER");
+        $data["http_referer"] = $http_referer;
+        
+        // 上傳日期
+        $upload_date = R::isoDateTime();
+        $data["upload_date"] = $upload_date;
+        
+        // 是否刪除
+        $deleted = FALSE;
+        $data["deleted"] = $deleted;
+        
+        $hash = base_convert(
+            sprintf('%u',crc32(1000)),10,36
+        );
+        //$hash = strtr(base64_encode(1000), '+/=', '-_,');
+        $hash = $this->base56_encode(100000000);
+        $data["hash"] = $hash;
+        
+        
+        var_dump($data);
+        
+        
+    }
+    
+    /**
+     * 取得使用者的IP資訊
+     * @return String
+     */
+    private function _get_client_ip()
+    {
+        $myip = NULL;
+        if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $myip = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $myip = $myip[0];
+        }
+        
+        if ($myip === "::1") {
+            $myip = NULL;
+        }
+        return $myip;
+    }
+    
+    // URL保留文字 http://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
+    var $_alphabet_raw = '0123456789abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ_-.~';
+    
+    function base56_encode($num){
+        $alphabet = str_split($this->_alphabet_raw);
+        
+        /*
+            Encode a number in Base X
+
+        `num`: The number to encode
+        `alphabet`: The alphabet to use for encoding
+        */
+        if ($num == 0){
+            return 0;
+            }
+
+            $n = str_split($num);
+        $arr = array();
+        $base = sizeof($alphabet);
+
+        while($num){
+            $rem = $num % $base;
+            $num = (int)($num / $base);
+            $arr[]=$alphabet[$rem];
+            }
+
+        $arr = array_reverse($arr);
+        return implode($arr);
+    }
+
+    function base56_decode($string){
+        $alphabet = str_split($this->_alphabet_raw);
+        /*
+            Decode a Base X encoded string into the number
+
+        Arguments:
+        - `string`: The encoded string
+        - `alphabet`: The alphabet to use for encoding
+        */
+
+        $base = sizeof($alphabet);
+        $strlen = strlen($string);
+        $num = 0;
+        $idx = 0;
+
+            $s = str_split($string);
+            $tebahpla = array_flip($alphabet);
+
+        foreach($s as $char){
+            $power = ($strlen - ($idx + 1));
+            $num += $tebahpla[$char] * (pow($base,$power));
+            $idx += 1;
+            }
+        return $num;
     }
 }
