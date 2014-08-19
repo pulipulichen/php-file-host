@@ -53,7 +53,7 @@ class PFH_File {
         $bean->md5 = $md5;
         
         // 上傳IP
-        $client_ip = PFH_Client_utils::get_client_ip($f3);
+        $client_ip = PFH_Client_helper::get_client_ip($f3);
         //$data["client_ip"] = $client_ip;
         $bean->client_ip = $client_ip;
         
@@ -128,7 +128,7 @@ class PFH_File {
         
         $link = "/get/" . $hash_id . "/" . $filename;
         
-        $link = PFH_URL_utils::get_base_url($f3, $link);
+        $link = PFH_URL_helper::get_base_url($f3, $link);
         
         return $link;
     }

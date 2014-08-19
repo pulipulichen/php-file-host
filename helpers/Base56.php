@@ -24,7 +24,7 @@ class Base56 {
      */
     static function encode($num, $alphabet_raw = NULL) {
         if ($alphabet_raw === NULL) {
-            $alphabet_raw = Base56::$alphabet_raw;
+            $alphabet_raw = self::$alphabet_raw;
         }
         
         $alphabet = str_split($alphabet_raw);
@@ -58,7 +58,7 @@ class Base56 {
      */
     static function decode($string, $alphabet_raw = NULL){
         if ($alphabet_raw === NULL) {
-            $alphabet_raw = Base56::$alphabet_raw;
+            $alphabet_raw = self::$alphabet_raw;
         }
         
         $alphabet = str_split($alphabet_raw);

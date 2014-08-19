@@ -1,12 +1,12 @@
 <?php
 /**
- * Client_utils
+ * Client_helper
  * 
  * 客戶端的零零總總
  *
  * @author pudding 20140819
  */
-class PFH_Client_utils {
+class PFH_Client_helper {
     
     /**
      * 取得使用者的IP資訊

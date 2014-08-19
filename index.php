@@ -9,7 +9,7 @@ $f3->config('config/uploads.ini');
 $f3->config('config/routes.ini');
 
 // 資料庫
-require_once 'redbeanphp/rb_setup.php';
+require_once("helpers/Database_helper.php");
 
 // 正式執行
 $f3->run();
