@@ -93,9 +93,16 @@
      * @version 20140819
      */
     static public function download_contents($content, $type, $name, $force_download = TRUE) {
+        
+        // 加入檔案是否存在的檢查
+        if (is_file($content) === FALSE) {
+            throw new Exception("file not exists");
+        }
+        
         $chunksize = 1*(1024*1024); // how many bytes per chunk
         $buffer = '';
         $handle = fopen($content, 'rb');
+        
 
         $size = filesize($content);
         //echo $size;

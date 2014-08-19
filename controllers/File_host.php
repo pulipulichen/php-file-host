@@ -48,7 +48,7 @@ class File_host {
         if ($validate_result === TRUE) {
             $tmp_path = $_FILES["file"]["tmp_name"];
             $md5 = md5_file($tmp_path);
-            $file_path = PFH_File::get_file_path_from_md5($f3, $md5);
+            $file_path = PFH_File_model::get_file_path_from_md5($f3, $md5);
 
             if (is_file($file_path) === FALSE) {
                 move_uploaded_file($tmp_path,
@@ -56,7 +56,7 @@ class File_host {
             }
           
             //$result = $this->_db_record_create($f3, $file, $md5);
-            $bean = PFH_File::create_from_upload($f3, $file);
+            $bean = PFH_File_model::create_from_upload($f3, $file);
             // 新增KEY到SESSION之中
             $f3->set($this->session_key, $bean->id);
         }
@@ -86,8 +86,8 @@ class File_host {
         
         $id = $f3->get($this->session_key);
         //echo $id;
-        $bean = PFH_File::get($id);
-        $result = PFH_File::get_link($f3, $bean);
+        $bean = PFH_File_model::get($id);
+        $result = PFH_File_model::get_link($f3, $bean);
         
         //$json = json_encode($result);
         $f3->set("json", $result);

@@ -11,13 +11,13 @@ class File_manage {
         $hash_id = $f3->get("PARAMS.hash_id");
         $id = Base56::decode($hash_id);
         
-        $file = PFH_File::get($id);
+        $file = PFH_File_model::get($id);
         
         $filename = $file->filename;
         $filetype = $file->filetype;
         
         $md5 = $file->md5;
-        $filepath = PFH_File::get_file_path_from_md5($f3, $md5);
+        $filepath = PFH_File_model::get_file_path_from_md5($f3, $md5);
         
         //$disposition = 'attachment';
         //header("Content-Disposition: $disposition; filename=\"download.txt\"");
@@ -27,6 +27,8 @@ class File_manage {
             // Generate an HTTP 404
         //    $f3->error(404);
         //}
+        
+        PFH_File_model::add_download_count($file);
         
         PFH_File_helper::download_contents($filepath, $filetype, $filename);
     }

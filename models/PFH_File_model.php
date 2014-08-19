@@ -1,13 +1,13 @@
 <?php
 /**
- * PFH_File
+ * PFH_File_model
  * 
  * 檔案
  *
  * @author Pulipuli Chen <pulipuli.chen@gmail.com>
  * @version 20140819
  */
-class PFH_File {
+class PFH_File_model {
     
     /**
      * 取得檔案
@@ -23,65 +23,62 @@ class PFH_File {
         return $bean;
     }
 
-    static function create_from_upload($f3, $file, $md5 = NULL) {
-        $bean = R::dispense("file");
-        //$file->title="哈利波特";
-        //$id = R::store($file);
-        //$data = array();
-        
-        // 檔案名稱
-        $filename = $file['name'];
-        //$data["filename"] = $filename;
-        $bean->filename = $filename;
-        
+    static function create_from_upload($f3, $upload_file, $md5 = NULL) {
+                
         // 檔案大小
-        $filesize = $file['size'];
-        //$data["filesize"] = $filesize;
-        $bean->filesize = $filesize;
-        
+        $filesize = $upload_file['size'];
+                
         // 檔案類型
-        $filetype = $file['type'];
-        //$data["filetype"] = $filetype;
-        $bean->filetype = $filetype;
+        $filetype = $upload_file['type'];
         
         // md5
-        // $md5
         if (is_null($md5)) {
-            $md5 = md5_file($file["tmp_name"]);
+            $md5 = md5_file($upload_file["tmp_name"]);
         }
-        //$data["md5"] = $md5;
-        $bean->md5 = $md5;
         
-        // 上傳IP
-        $client_ip = PFH_Client_helper::get_client_ip($f3);
-        //$data["client_ip"] = $client_ip;
-        $bean->client_ip = $client_ip;
+        // 搜尋看看有沒有這個bean
+        $file = R::findOne("file", "md5 = ?", [$md5]);
         
-        // 來源網頁
-        $http_referer = getenv("HTTP_REFERER");
-        //$data["http_referer"] = $http_referer;
-        $bean->http_referer = $http_referer;
+        if (is_null($file)) {
         
-        // 上傳日期
-        $upload_date = R::isoDateTime();
-        //$data["upload_date"] = $upload_date;
-        $bean->upload_date = $upload_date;
+            $file = R::dispense("file");
+            //$file->title="哈利波特";
+            //$id = R::store($file);
+            //$data = array();
+
+            // 檔案名稱
+            $filename = $upload_file['name'];
+            //$data["filename"] = $filename;
+            $file->filename = $filename;
+
+            // 檔案大小
+            $file->filesize = $filesize;
+
+            // 檔案類型
+            $file->filetype = $filetype;
+
+            // md5
+            $file->md5 = $md5;
+
+            // 是否刪除
+            $deleted = FALSE;
+            //$data["deleted"] = $deleted;
+            $file->deleted = $deleted;
+
+            //$hash = Base56::encode(1000000);
+            //$data["hash"] = $hash;
+
+            $action = "upload";
+            PFH_Log_model::create_log($f3, $file, $action);
+
+            R::store($file);
+            //$bean->id = 9;
+            
+        }   //if (is_null($file)) {
         
-        // 是否刪除
-        $deleted = FALSE;
-        //$data["deleted"] = $deleted;
-        $bean->deleted = $deleted;
-                
-        //$hash = Base56::encode(1000000);
-        //$data["hash"] = $hash;
+        //echo $file->id;
         
-        
-        //R::store($bean);
-        $bean->id = 9;
-        
-        echo $bean->id;
-        
-        return $bean;
+        return $file;
     }
     
     /**
@@ -90,7 +87,7 @@ class PFH_File {
      * @param Object $f3
      * @param String $md5
      * @return string
-     * @author Pulipuli Chen <pulipuli.chen@gmail.com>PFH_File
+     * @author Pulipuli Chen <pulipuli.chen@gmail.com>
      * @version 20140819
      */
     static function get_file_path_from_md5($f3, $md5) {
@@ -134,4 +131,5 @@ class PFH_File {
         
         return $link;
     }
+    
 }
