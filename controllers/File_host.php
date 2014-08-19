@@ -73,6 +73,7 @@ class File_host {
             $reroute = $reroute . "?callback=" . $f3->get("GET.callback");
         }
         
+        //echo $bean->id;
         $f3->reroute($reroute);
         return $this;
     }
@@ -86,7 +87,7 @@ class File_host {
         
         $id = $f3->get($this->session_key);
         //echo $id;
-        $bean = PFH_File_model::get($id);
+        $bean = PFH_File_model::get_by_id($id);
         $result = PFH_File_model::get_link($f3, $bean);
         
         //$json = json_encode($result);

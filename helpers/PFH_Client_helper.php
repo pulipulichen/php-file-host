@@ -28,9 +28,9 @@ class PFH_Client_helper {
             $myip = $myip[0];
         }
         
-        if ($myip === "::1") {
-            $myip = NULL;
-        }
+        //if ($myip === "::1") {
+        //    $myip = NULL;
+        //}
         return $myip;
     }
     

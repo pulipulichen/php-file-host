@@ -22,6 +22,28 @@ class PFH_File_model {
         $bean = R::load( 'file', $id );
         return $bean;
     }
+    
+    /**
+     * 取得檔案
+     * @param String $id
+     * @return RedBean
+     */
+    static function get_by_hash_id($id) {
+        $id = Base56::decode($id);
+        $bean = R::load( 'file', $id );
+        return $bean;
+    }
+    
+    /**
+     * 取得檔案
+     * @param Int $id
+     * @return RedBean
+     */
+    static function get_by_id($id) {
+        $id = intval($id);
+        $bean = R::load( 'file', $id );
+        return $bean;
+    }
 
     static function create_from_upload($f3, $upload_file, $md5 = NULL) {
                 
@@ -118,8 +140,8 @@ class PFH_File_model {
         
         //$link = "/get/1000/檔案名稱.txt";
         
-        //$id = $bean->id;
-        $id = 4;
+        $id = $bean->id;
+        //$id = 4;
         $hash_id = Base56::encode($id);
         
         $filename = $bean->filename;
