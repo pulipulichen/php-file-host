@@ -3,7 +3,7 @@ return array(
     'upload_form' => array(
         'title'=>'PHP File Host',
         'form' => array(
-            'input_label'=> 'Upload Your File and Get a Link.',
+            'input_label'=> 'Upload Your File, Get Your Link.',
             'submit' => "UPLOAD"
         ),
         'how_to_use' => array(
