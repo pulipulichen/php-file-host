@@ -19,4 +19,4 @@ new \DB\SQL\Session($db);
 //echo $f3->get('SESSION.test');
 
 // 讀取RedBean資料庫
-require_once('redbeanphp/rb_setup.php');
+require_once('helpers/redbeanphp/rb_setup.php');

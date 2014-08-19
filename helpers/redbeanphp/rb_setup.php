@@ -1,6 +1,6 @@
 <?php
 
-require_once 'redbeanphp/rb.php';
+require_once 'helpers/redbeanphp/rb.php';
 
 $database_host = $f3->get('DATABASE.host');
 if (strpos($database_host, "sqlite:") === 0) {
