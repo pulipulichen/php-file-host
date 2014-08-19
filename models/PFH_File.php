@@ -10,10 +10,19 @@
 class PFH_File {
     
     /**
-     * @var RedBean 
+     * 取得檔案
+     * @param Int|String $id
+     * @return RedBean
      */
-    var $bean;
-    
+    static function get($id) {
+        if (is_string($id)) {
+            $id = Base56::decode($id);
+        }
+        
+        $bean = R::load( 'file', $id );
+        return $bean;
+    }
+
     static function create_from_upload($f3, $file, $md5 = NULL) {
         $bean = R::dispense("file");
         //$file->title="哈利波特";
@@ -67,7 +76,7 @@ class PFH_File {
         //$data["hash"] = $hash;
         
         //var_dump($bean);
-        R::store($bean);
+        //R::store($bean);
         //echo $bean->id;
         
         return $bean;
@@ -110,7 +119,8 @@ class PFH_File {
         
         //$link = "/get/1000/檔案名稱.txt";
         
-        $id = $bean->id;
+        //$id = $bean->id;
+        $id = 4;
         $hash_id = Base56::encode($id);
         
         $filename = $bean->filename;

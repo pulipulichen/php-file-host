@@ -30,10 +30,10 @@ class File_host {
             $result = PFH_File::get_link($f3, $bean);
         }
         
-        $json = json_encode($result);
-        $f3->set("json", $json);
+        //$json = json_encode($result);
+        $f3->set("json", $result);
         
-        $template = new Template;
+        $template = new Template_json;
         echo $template->render("callback.js", 'text/javascript');
     }
     
@@ -68,52 +68,5 @@ class File_host {
         else {
             return TRUE;
         }
-    }
-    
-    // ---------------------------------------------
-    
-    private function _db_record_create($f3, $file, $md5) {
-        $data = array();
-        
-        // 檔案名稱
-        $filename = $file['name'];
-        $data["filename"] = $filename;
-        
-        // 檔案大小
-        $filesize = $file['size'];
-        $data["filesize"] = $filesize;
-        
-        // 檔案類型
-        $filetype = $file['type'];
-        $data["filetype"] = $filetype;
-        
-        // md5
-        // $md5
-        $data["md5"] = $md5;
-        
-        // 上傳IP
-        $client_ip = PFH_Client_utils::get_client_ip();
-        $data["client_ip"] = $client_ip;
-        
-        // 來源網頁
-        $http_referer = getenv("HTTP_REFERER");
-        $data["http_referer"] = $http_referer;
-        
-        // 上傳日期
-        $upload_date = R::isoDateTime();
-        $data["upload_date"] = $upload_date;
-        
-        // 是否刪除
-        $deleted = FALSE;
-        $data["deleted"] = $deleted;
-        
-        $hash = Base56::encode(1000000);
-        $data["hash"] = $hash;
-        
-        
-        var_dump($data);
-        
-        
-    }
-    
+    }    
 }

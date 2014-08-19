@@ -5,10 +5,10 @@
  *}
 <check if="{{ @callback=='' }}">
     <true>
-        {{ @json | raw }}
+        {{ @json | json_encode }}
     </true>
     <false>
-        {{ @callback }}({{ @json | raw }});
+        {{ @callback }}({{ @json | json_encode }});
     </false>
 </check>
     
