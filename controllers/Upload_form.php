@@ -32,7 +32,7 @@ class Upload_form {
     private function get_how_to_use_content($f3) {
         $content = "How to use content.";
         
-        $file = F3::instance()->read('README.md');
+        $file = F3::instance()->read('help/README.md');
         $html = Markdown::instance()->convert($file);
         
         $f3->set('how_to_use_content', $html);
