@@ -10,6 +10,70 @@
 class PFH_File {
     
     /**
+     * @var RedBean 
+     */
+    var $bean;
+    
+    static function create_from_upload($f3, $file, $md5 = NULL) {
+        $bean = R::dispense("file");
+        //$file->title="哈利波特";
+        //$id = R::store($file);
+        //$data = array();
+        
+        // 檔案名稱
+        $filename = $file['name'];
+        //$data["filename"] = $filename;
+        $bean->filename = $filename;
+        
+        // 檔案大小
+        $filesize = $file['size'];
+        //$data["filesize"] = $filesize;
+        $bean->filesize = $filesize;
+        
+        // 檔案類型
+        $filetype = $file['type'];
+        //$data["filetype"] = $filetype;
+        $bean->filetype = $filetype;
+        
+        // md5
+        // $md5
+        if (is_null($md5)) {
+            $md5 = md5_file($file["tmp_name"]);
+        }
+        //$data["md5"] = $md5;
+        $bean->md5 = $md5;
+        
+        // 上傳IP
+        $client_ip = PFH_Client_utils::get_client_ip($f3);
+        //$data["client_ip"] = $client_ip;
+        $bean->client_ip = $client_ip;
+        
+        // 來源網頁
+        $http_referer = getenv("HTTP_REFERER");
+        //$data["http_referer"] = $http_referer;
+        $bean->http_referer = $http_referer;
+        
+        // 上傳日期
+        $upload_date = R::isoDateTime();
+        //$data["upload_date"] = $upload_date;
+        $bean->upload_date = $upload_date;
+        
+        // 是否刪除
+        $deleted = FALSE;
+        //$data["deleted"] = $deleted;
+        $bean->deleted = $deleted;
+                
+        //$hash = Base56::encode(1000000);
+        //$data["hash"] = $hash;
+        
+        //var_dump($bean);
+        R::store($bean);
+        //echo $bean->id;
+        
+        return $bean;
+    }
+    
+    /**
      * 從MD5取得檔案路徑
      * 
      * @param Object $f3
@@ -34,5 +98,28 @@ class PFH_File {
         $file_path = $file_dir . $file_name;
         
         return $file_path;
+    }
+    
+    /**
+     * 
+     * @param Object $f3
+     * @param RedBean $bean
+     * @return string 連結
+     */
+    static function get_link($f3, $bean) {
+        
+        //$link = "/get/1000/檔案名稱.txt";
+        
+        $id = $bean->id;
+        $hash_id = Base56::encode($id);
+        
+        $filename = $bean->filename;
+        $filename = urlencode($filename);
+        
+        $link = "/get/" . $hash_id . "/" . $filename;
+        
+        $link = PFH_URL_utils::get_base_url($f3, $link);
+        
+        return $link;
     }
 }

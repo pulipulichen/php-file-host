@@ -15,7 +15,7 @@ class PFH_Client_utils {
      * @version 20140819
      * 
      */
-    static function get_client_ip()
+    static function get_client_ip($f3)
     {
         $myip = NULL;
         if (isset($_SERVER) === FALSE) {
@@ -33,4 +33,5 @@ class PFH_Client_utils {
         }
         return $myip;
     }
+    
 }

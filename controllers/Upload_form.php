@@ -24,6 +24,8 @@ class Upload_form {
         $template = new Template;
         echo $template->render("upload_form.html");
         
+        echo $f3->get("URI");
+        
         //echo "upload form " . $id;
     }
     

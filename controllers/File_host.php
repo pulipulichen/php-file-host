@@ -25,8 +25,9 @@ class File_host {
                      $file_path);
             }
           
-            $result = $this->_db_record_create($f3, $file, $md5);
-            $result = "http://www.googl.com.tw";
+            //$result = $this->_db_record_create($f3, $file, $md5);
+            $bean = PFH_File::create_from_upload($f3, $file);
+            $result = PFH_File::get_link($f3, $bean);
         }
         
         $json = json_encode($result);
