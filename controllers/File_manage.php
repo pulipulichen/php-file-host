@@ -29,7 +29,8 @@ class File_manage {
         //    $f3->error(404);
         //}
         
-        PFH_File_model::add_download_count($file);
+        $action = "download";
+        PFH_Log_model::create_log($f3, $file, $action);
         
         PFH_File_helper::download_contents($filepath, $filetype, $filename);
     }
