@@ -1,17 +1,9 @@
 /*jslint unparam: true */
 /*global window, $ */
 $(function () {
-    //'use strict';
-    // Change this to the location of your server-side upload handler:
-    // 設定上傳網址
-    //var url = window.location.hostname === 'blueimp.github.io' ?
-    //            '//jquery-file-upload.appspot.com/' : 'server/php/';
-    //var url = "{{ @BASE }}/upload";
-                
     // 開始設定檔案上傳
     var _progress = $('#progress');
     var _progress_bar = $('#progress .progress-bar');
-    var _reset_key = undefined;
     var _files = $('#files');
     
     var _messages = _files.find(".message");
@@ -24,12 +16,9 @@ $(function () {
     var _fileinput_button = $(".fileinput-button");
     
     $('#fileupload').fileupload({
-        //url: url,
+        //url: url, // 網址參考 <form>的action屬性
         dataType: 'json',
-        //forceIframeTransport: true,
-        //postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/postmessage.html",
-        //postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/html5/jQuery-File-Upload/cors/postmessage.html",
-        postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/postmessage",
+        //postMessage: "http://example.org/php-file-host/postmessage",
         add: function (e, data) {
             
             _dragleave_callback();
