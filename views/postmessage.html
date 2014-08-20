@@ -23,9 +23,11 @@
 /*global $, Blob, FormData, location */
 'use strict';
 
+{*
 // 在這裡詳細地設定同源政策
-// UPLOAD.origin
+// Template的條件式：http://fatfreeframework.com/views-and-templates#conditional-segments
 //var origin = /^http:\/\/example.org/,
+*}
 <check if="{{ @UPLOAD.origin=='*' }}">
     <false>var origin = {{ @UPLOAD.origin }};</false>
 </check>
