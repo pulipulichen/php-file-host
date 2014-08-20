@@ -87,7 +87,7 @@
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <form action="{{ @BASE }}/upload?callback=test" method="post" enctype="multipart/form-data">
-                            <h3>{{ @upload_form.form.input_label }}</h3>
+                            <h3>{{ @upload_form.form.input_label | raw }}</h3>
                             
                             <!--
                                     按鈕清單
@@ -114,7 +114,8 @@
                                 <i class="fa fa-cloud-upload fa-lg" style="padding-right: 0.5em"></i> 
                                 <span>{{ @upload_form.form.submit }}</span>
                                 <!-- The file input field used as target for the file upload widget -->
-                                <input id="fileupload" type="file" name="files[]" multiple>
+                                <input id="fileupload" type="file" name="file">
+                                <input name="local_upload" type="hidden" value="1" />
                             </span>
                             <br>
                             <br>
@@ -267,17 +268,7 @@ $(function () {
                 data.submit();
             }
         
-            
-            //_progress.fadeIn();
-            //var _progress_bar = $('#progress .progress-bar');
-            //var _temp = _progress_bar.clone()
-            //        .css("width", "0%")
-            //        .appendTo(_progress);
-            //alert(_temp.length);
-            //_progress_bar.remove();
             clearTimeout(_reset_key);
-            
-            //_progress_bar.css("width", "0%");
             
             _files.empty();
         },
@@ -293,15 +284,6 @@ $(function () {
                 var _link = $('<a/>').attr("href", file.url).text(file.name)
                 $('<p/>').html(_link).appendTo(_files);
             });
-            //_progress.fadeOut();
-            //_progress_bar.css("width", "0%");
-            //_reset_key = setTimeout(function () {
-            //    _progress_bar.css("width", "0%");
-                
-                
-
-            //}, 1000);
-            
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');

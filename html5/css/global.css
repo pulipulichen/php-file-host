@@ -28,3 +28,8 @@ footer .container {
     font-size: large;
     text-decoration: underline;
 }
+
+.intro-message h3 {
+    font-size: 36px;
+    text-shadow: 5px 5px #000;
+}

@@ -47,6 +47,8 @@ class File_host {
             echo $db;
         }            
         */
+        
+        $bean = NULL;
         if ($validate_result === TRUE) {
             //$result = $this->_db_record_create($f3, $file, $md5);
             $bean = PFH_File_model::create_from_upload($f3, $file);
@@ -61,13 +63,28 @@ class File_host {
         // -------------------------
         // reroute
         
-        $reroute = "/upload";
-        if ($f3->exists("GET.callback")) {
-            $reroute = $reroute . "?callback=" . $f3->get("GET.callback");
+        if ($f3->get("POST.local_upload") !== "1") {
+            $reroute = "/upload";
+            if ($f3->exists("GET.callback")) {
+                $reroute = $reroute . "?callback=" . $f3->get("GET.callback");
+            }
+
+            //echo $bean->id;
+            $f3->reroute($reroute);
         }
-        
-        //echo $bean->id;
-        $f3->reroute($reroute);
+        else {
+            $data = array(
+                'name' => $file['name'],
+                'size' => $file['size']
+            );
+            if (is_null($bean) === FALSE) {
+                $data["url"] = PFH_File_model::get_link($f3, $bean);
+            }
+            $f3->set("handle", $data);
+            
+            $template = new Template_json;
+            echo $template->render("jquery_file_upload_handler.js", 'text/javascript');            
+        }
         return $this;
     }
     
