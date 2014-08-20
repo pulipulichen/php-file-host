@@ -23,11 +23,11 @@ $(function () {
     
     var _fileinput_button = $(".fileinput-button");
     
-    var _drag_lock = false;
-    
     $('#fileupload').fileupload({
         //url: url,
         dataType: 'json',
+        //forceIframeTransport: true,
+        postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/html5/jQuery-File-Upload/cors/postmessage.html",
         add: function (e, data) {
             
             _dragleave_callback();
@@ -62,6 +62,7 @@ $(function () {
             );
         },
         done: function (e, data) {
+            //console.log([data, typeof(data), data.result, typeof(data.result)]);
             $.each(data.result.files, function (index, file) {
                 var _link;
                 //alert([typeof(file.url), typeof(file.error),file.error]);
@@ -85,13 +86,14 @@ $(function () {
             _fileinput_button.removeClass("disabled");
         },
     }).prop('disabled', !$.support.fileInput)
-        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');    
+
 
     var _drop_zone = $(".intro-header");
     //var _drop_zone = $(document);
     var _drop_zone_overlay = $(".drag-zone-overlay");
     
-    var _dragenter_callback = function () {
+    _dragenter_callback = function () {
         var _top = _drop_zone.position().top;
         var _height = _drop_zone.height();
         
@@ -111,12 +113,14 @@ $(function () {
         }
     };
     
-    var _dragleave_callback = function (_callback) {
+    _dragleave_callback = function (_callback) {
         if (_drop_zone_overlay.css("display") === "block") {
             _drop_zone_overlay.fadeOut(_callback);
         }
         else {
-            _callback();
+            if (_callback !== undefined) {
+                _callback();
+            }
         }
     };
     
@@ -146,5 +150,4 @@ $(function () {
             
         }
     });
-    
 });

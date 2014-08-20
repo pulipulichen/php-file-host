@@ -18,6 +18,15 @@ class File_host {
      */
     public function upload($f3) {
         
+        /*
+        if ($f3->exists($this->session_key)) {
+            $template = new Template_json;
+            echo $template->render("mock_jquery_file_upload_handler.js", 'text/javascript');        
+            return $this;
+        }
+        */
+        
+        //header("Access-Control-Allow-Origin: http://localhost");
         if (isset($_FILES["file"]) === FALSE) {
             
             //throw new Exception("no file upload");
@@ -99,9 +108,9 @@ class File_host {
     public function get_link($f3) {
         
         if ($f3->exists($this->session_key) === FALSE) {
-            //throw new Exception("no file");
+            throw new Exception("no file");
             //$f3->reroute("/");
-            return $this;
+            //return $this;
         }
         
         $id = $f3->get($this->session_key);

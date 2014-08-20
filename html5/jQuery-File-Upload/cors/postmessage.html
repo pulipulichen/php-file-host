@@ -22,14 +22,18 @@
 /*jslint unparam: true, regexp: true */
 /*global $, Blob, FormData, location */
 'use strict';
-var origin = /^http:\/\/example.org/,
-    target = new RegExp('^(http(s)?:)?\\/\\/' + location.host + '\\/');
+
+// 在這裡詳細地設定同源政策
+//var origin = /^http:\/\/example1.org/,
+        
+        
+var target = new RegExp('^(http(s)?:)?\\/\\/' + location.host + '\\/');
 $(window).on('message', function (e) {
     e = e.originalEvent;
     var s = e.data,
         xhr = $.ajaxSettings.xhr(),
         f;
-    if (!origin.test(e.origin)) {
+    if (typeof(origin) !== "undefined" && !origin.test(e.origin)) {
         throw new Error('Origin "' + e.origin + '" does not match ' + origin);
     }
     if (!target.test(e.data.url)) {
