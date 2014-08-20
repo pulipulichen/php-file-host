@@ -144,7 +144,7 @@ class File_host {
         }
         
         if ($result === FALSE) {
-            throw new Exception("file MIME type not accept: " . $mine);
+            throw new Exception("MIME type not accept: " . $mine);
         }
         else {
             return TRUE;
