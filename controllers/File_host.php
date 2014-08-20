@@ -194,11 +194,21 @@ class File_host {
         }
     }    
     
-    public function mock_handler($f3) {
+//    public function mock_handler($f3) {
+//        
+//        $template = new Template_json;
+//        echo $template->render("mock_jquery_file_upload_handler.js", 'text/javascript');
+//        return;
+//        
+//    }
+    
+    public function postmessage($f3) {
         
-        $template = new Template_json;
-        echo $template->render("mock_jquery_file_upload_handler.js", 'text/javascript');
+        // 要設定這個header，才能做iframe
+        header('X-Frame-Options: ');
+        
+        $template = new Template;
+        echo $template->render("postmessage.html", 'text/html');
         return;
-        
     }
 }

@@ -27,7 +27,9 @@ $(function () {
         //url: url,
         dataType: 'json',
         //forceIframeTransport: true,
-        postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/html5/jQuery-File-Upload/cors/postmessage.html",
+        //postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/postmessage.html",
+        //postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/html5/jQuery-File-Upload/cors/postmessage.html",
+        postMessage: "http://pc-pudding-2013.dlll.nccu.edu.tw/php-file-host/postmessage",
         add: function (e, data) {
             
             _dragleave_callback();
