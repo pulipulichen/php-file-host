@@ -42,3 +42,6 @@ footer .container {
     cursor: pointer;
 }
 
+#progress {
+    margin-top: 1em;
+}

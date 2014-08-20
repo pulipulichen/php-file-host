@@ -1,0 +1,26 @@
+
+<!-- Footer -->
+<footer>
+    <a id="contact" name="contact"></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-inline center">
+                    <li>
+                        <a href="http://pulipuli.blogspot.tw/" target="blog">{{ @upload_form.navbar.blog }}</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="https://github.com/pulipulichen/php-file-host" target="github">{{ @upload_form.navbar.github }}</a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted small">
+                    {{ @upload_form.license.description | raw }} 
+                    <br />                        
+                    <a href="http://pulipuli.blogspot.tw" target="blogger">{{ @upload_form.license.author }}</a>
+                    {{ @readme_update_year }}. 
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
