@@ -80,13 +80,14 @@
                         
     <!-- Header -->
     <div class="intro-header">
-
+        
         <div class="container">
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
                         <form action="{{ @BASE }}/upload?callback=test" method="post" enctype="multipart/form-data">
+                            <label>
                             <h3>{{ @upload_form.form.input_label | raw }}</h3>
                             
                             <!--
@@ -117,6 +118,7 @@
                                 <input id="fileupload" type="file" name="file">
                                 <input name="local_upload" type="hidden" value="1" />
                             </span>
+                            </label>
                             <br>
                             <br>
                             <!-- The global progress bar -->
@@ -248,7 +250,7 @@
 <script src="{{ @BASE }}/html5/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
 <script src="{{ @BASE }}/html5/jQuery-File-Upload/js/jquery.fileupload.js"></script>
-<script src="{{ @BASE }}/html5/js/setup_jquery_fileupload_js"></script>
+<script src="{{ @BASE }}/html5/js/setup_jquery_fileupload.js"></script>
     
     
     

@@ -6,15 +6,23 @@ $(function () {
     // 設定上傳網址
     //var url = window.location.hostname === 'blueimp.github.io' ?
     //            '//jquery-file-upload.appspot.com/' : 'server/php/';
-    var url = "{{ @BASE }}/upload";
+    //var url = "{{ @BASE }}/upload";
                 
     // 開始設定檔案上傳
     var _progress = $('#progress');
     var _progress_bar = $('#progress .progress-bar');
     var _reset_key = undefined;
     var _files = $('#files');
+    
+    var _messages = _files.find(".message");
+    var _message_success = _files.find(".message.success");
+    _message_success.find("input").click(function () {
+       this.select(); 
+    });
+    var _message_error = _files.find(".message.error");
+    
     $('#fileupload').fileupload({
-        url: url,
+        //url: url,
         dataType: 'json',
         add: function (e, data) {
             
@@ -29,12 +37,14 @@ $(function () {
                 _progress = $('#progress');
                 _progress_bar = $('#progress .progress-bar');
                 
-                data.submit();
+                _messages.fadeOut(function () {
+                    data.submit();
+                });
             }
         
-            clearTimeout(_reset_key);
+            //clearTimeout(_reset_key);
             
-            _files.empty();
+            //_files.empty();
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -48,14 +58,20 @@ $(function () {
                 var _link;
                 //alert([typeof(file.url), typeof(file.error),file.error]);
                 if (typeof(file.error) !== 'string') { 
-                    var _a = $('<a class="btn btn-success btn-lg" role="button" />').attr("href", file.url).text(file.name)
-                            .prepend($('<i class="fa fa-file" style="padding-right: 0.5em"></i> '));
+                    //var _a = $('<a class="btn btn-success btn-lg" role="button" />').attr("href", file.url).text(file.name)
+                    //        .prepend($('<i class="fa fa-file" style="padding-right: 0.5em"></i> '));
                     
+                    _message_success.find("a").attr("href", file.url);
+                    _message_success.find("a span").html(file.name);
+                    _message_success.find("input").val(file.url);
+                    _message_success.fadeIn();
                 }
                 else {
-                    _link = $('<span class="label label-danger" />').text(file.error).addClass('error');
+                    //_link = $('<span class="label label-danger" />').text(file.error).addClass('error');
+                    _message_error.html(file.error);
+                    _message_error.fadeIn();
                 }
-                $('<p/>').html(_link).appendTo(_files);
+                //$('<p/>').html(_link).appendTo(_files);
             });
         }
     }).prop('disabled', !$.support.fileInput)
