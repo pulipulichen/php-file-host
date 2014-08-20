@@ -124,7 +124,22 @@
                                 <div class="progress-bar progress-bar-warning"></div>
                             </div>
                             <!-- The container for the uploaded files -->
-                            <div id="files" class="files"></div>
+                            <div id="files" class="files">
+                                <div class="col-lg-6 col-lg-offset-3 col-sm-6 col-sm-offset-3 message success">
+
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                    <a class="btn btn-success" role="button" href="#">
+                                        <i class="fa fa-file" style="padding-right: 0.5em"></i>
+                                        <span>test.txt</span>
+                                    </a>
+                                    </span>
+                                    <input type="text" class="form-control">
+                                  </div><!-- /input-group -->
+                                </div>
+                                
+                                <span class="label label-danger message error">How to Use</span>
+                            </div>
 
                             <!-- --------------------------------------------------------------------------------------------------- -->
 
@@ -218,14 +233,14 @@
         </div>
     </footer>
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="{{ @BASE }}/html5/landing-page/js/jquery-1.11.0.js"></script>
+<!-- jQuery Version 1.11.0 -->
+<script src="{{ @BASE }}/html5/landing-page/js/jquery-1.11.0.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{ @BASE }}/html5/landing-page/js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ @BASE }}/html5/landing-page/js/bootstrap.min.js"></script>
 
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=pulipuli"></script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=pulipuli"></script>
 
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="{{ @BASE }}/html5/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
@@ -233,62 +248,7 @@
 <script src="{{ @BASE }}/html5/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
 <script src="{{ @BASE }}/html5/jQuery-File-Upload/js/jquery.fileupload.js"></script>
-    <script>
-/*jslint unparam: true */
-/*global window, $ */
-$(function () {
-    //'use strict';
-    // Change this to the location of your server-side upload handler:
-    // 設定上傳網址
-    //var url = window.location.hostname === 'blueimp.github.io' ?
-    //            '//jquery-file-upload.appspot.com/' : 'server/php/';
-    var url = "{{ @BASE }}/upload";
-                
-    // 開始設定檔案上傳
-    var _progress = $('#progress');
-    var _progress_bar = $('#progress .progress-bar');
-    var _reset_key = undefined;
-    var _files = $('#files');
-    $('#fileupload').fileupload({
-        url: url,
-        dataType: 'json',
-        add: function (e, data) {
-            
-            if (_progress_bar.width() === 0) {
-                data.submit();
-            }
-            else {
-                var _temp = _progress.clone();
-                _temp.find(".progress-bar").width(0);
-                _temp.insertAfter(_progress);
-                _progress.remove();
-                _progress = $('#progress');
-                _progress_bar = $('#progress .progress-bar');
-                
-                data.submit();
-            }
-        
-            clearTimeout(_reset_key);
-            
-            _files.empty();
-        },
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            _progress_bar.css(
-                'width',
-                progress + '%'
-            );
-        },
-        done: function (e, data) {
-            $.each(data.result.files, function (index, file) {
-                var _link = $('<a/>').attr("href", file.url).text(file.name)
-                $('<p/>').html(_link).appendTo(_files);
-            });
-        }
-    }).prop('disabled', !$.support.fileInput)
-        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-});
-</script>
+<script src="{{ @BASE }}/html5/js/setup_jquery_fileupload_js"></script>
     
     
     

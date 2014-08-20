@@ -29,7 +29,12 @@ class File_host {
         
         //var_dump($file);
         
-        $validate_result = $this->_validate_file($f3, $file);
+        try {
+            $validate_result = $this->_validate_file($f3, $file);
+        }
+        catch (Exception $e) {
+            $validate_result = $file["name"] . " upload error: " . $e->getMessage();
+        }
         
         //$result = FALSE;
         
@@ -80,6 +85,9 @@ class File_host {
             if (is_null($bean) === FALSE) {
                 $data["url"] = PFH_File_model::get_link($f3, $bean);
             }
+            else {
+                $data["error"] = $validate_result;
+            }
             $f3->set("handle", $data);
             
             $template = new Template_json;
@@ -91,7 +99,7 @@ class File_host {
     public function get_link($f3) {
         
         if ($f3->exists($this->session_key) === FALSE) {
-            throw new Exception("no file");
+            //throw new Exception("no file");
             //$f3->reroute("/");
             return $this;
         }

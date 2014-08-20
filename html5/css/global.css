@@ -23,10 +23,17 @@ footer .container {
 #files {
     height: 20px;
 }
+
+#files .message {
+    display:none;
+}
 #files a {
-    color: white;
+    /*
     font-size: large;
     text-decoration: underline;
+    */
+    color: white;
+    cursor: pointer;
 }
 
 .intro-message h3 {
