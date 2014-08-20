@@ -159,4 +159,12 @@ class File_host {
             return TRUE;
         }
     }    
+    
+    public function mock_handler($f3) {
+        
+        $template = new Template_json;
+        echo $template->render("mock_jquery_file_upload_handler.js", 'text/javascript');
+        return;
+        
+    }
 }

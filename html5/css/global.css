@@ -14,3 +14,17 @@ footer .container {
 .img-responsive {
     margin: 0 auto;
 }
+
+#progress {
+    height: 5px;
+    /*display: none;*/
+}
+
+#files {
+    height: 20px;
+}
+#files a {
+    color: white;
+    font-size: large;
+    text-decoration: underline;
+}
