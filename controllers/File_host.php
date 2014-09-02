@@ -10,6 +10,7 @@
 class File_host {
     
     private $session_key = "SESSION.upload_file_id";
+    private $session_error_key = "SESSION.upload_error";
 
     /**
      * 上傳檔案
@@ -70,6 +71,7 @@ class File_host {
             $bean = PFH_File_model::create_from_upload($f3, $file);
             // 新增KEY到SESSION之中
             $f3->set($this->session_key, $bean->id);
+            $f3->clear($this->session_error_key);
         }
         else {
             // 從SESSION刪除
@@ -108,6 +110,10 @@ class File_host {
     }
     
     public function get_link($f3) {
+        
+        if ($f3->exists($this->session_error_key)) {
+            throw new Exception($f3->get($this->session_error_key));
+        }
         
         if ($f3->exists($this->session_key) === FALSE) {
             throw new Exception("no file");
@@ -156,7 +162,9 @@ class File_host {
         }
         
         if ($result === FALSE) {
-            throw new Exception("MIME type not accept: " . $mine);
+            $message = "MIME type not accept: " . $mine;
+            $f3->set($this->session_error_key, $message);
+            throw new Exception($message);
         }
         else {
             return TRUE;
@@ -189,7 +197,9 @@ class File_host {
         $filesize = $f3->get("UPLOAD.filesize");
         $filesize = PFH_File_helper::convert_filesize_in_bytes($filesize);
         if ($file['size'] > $filesize) {
-            throw new Exception("file size too large");
+            $message = "file size too large";
+            $f3->set($this->session_error_key, $message);
+            throw new Exception($message);
             return FALSE;
         }
         else {
