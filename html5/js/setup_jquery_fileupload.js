@@ -75,7 +75,7 @@ $(function () {
             });
             
             _fileinput_button.removeClass("disabled");
-        },
+        }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');    
 });

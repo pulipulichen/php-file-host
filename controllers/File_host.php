@@ -25,15 +25,17 @@ class File_host {
             return $this;
         }
         */
-        
         //header("Access-Control-Allow-Origin: http://localhost");
         if (isset($_FILES["file"]) === FALSE) {
             
             //throw new Exception("no file upload");
-            $f3->reroute("/");
-            return $this;
+            //$f3->reroute("/");
+            //return $this;
         }
         
+        //var_dump($_POST);
+        //var_dump($_FILES);
+        //echo $_POST["fileupload"];
         $file = $_FILES["file"];
         
         //var_dump($file);
@@ -78,7 +80,7 @@ class File_host {
         // reroute
         
         if ($f3->get("POST.local_upload") !== "1") {
-            $reroute = "/upload";
+            $reroute = "/get_link";
             if ($f3->exists("GET.callback")) {
                 $reroute = $reroute . "?callback=" . $f3->get("GET.callback");
             }
@@ -122,7 +124,8 @@ class File_host {
         $f3->set("json", $result);
         
         $template = new Template_json;
-        echo $template->render("callback.js", 'text/javascript');
+        //echo $template->render("callback.js", 'text/javascript');
+        echo $template->render("callback.js");
     }
     
     // ------------------------------------------------
