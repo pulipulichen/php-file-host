@@ -31,16 +31,39 @@ class File_host {
         */
         //header("Access-Control-Allow-Origin: http://localhost");
         if (isset($_FILES["file"]) === FALSE) {
-            
-            //throw new Exception("no file upload");
+            if (isset($_POST["file"]) === FALSE) {
+                throw new Exception("no file upload");
+            }
+            else {
+                $data = substr($_POST['file'], strpos($_POST['file'], ",") + 1);
+                $type = substr($_POST['file'], 5, strpos($_POST['file'], ";base64") - 5);
+                $type = stripcslashes($type);
+                $decodedData = base64_decode($data);
+                $filename = urldecode($_POST['fname']);
+                $tmp_name = sys_get_temp_dir() . DIRECTORY_SEPARATOR .$filename;
+                //echo $tmp_name;
+                $fp = fopen($tmp_name, 'wb');
+                fwrite($fp, $decodedData);
+                fclose($fp);
+                
+                $file = array(
+                    "name" => $filename,
+                    "size" => filesize($tmp_name),
+                    "tmp_name" => $tmp_name,
+                    "type" => $type
+                );
+            }
             //$f3->reroute("/");
             //return $this;
+        }
+        else {
+            $file = $_FILES["file"];
         }
         
         //var_dump($_POST);
         //var_dump($_FILES);
         //echo $_POST["fileupload"];
-        $file = $_FILES["file"];
+        //$file = $_FILES["file"];
         
         //var_dump($file);
         
@@ -118,7 +141,11 @@ class File_host {
         header('X-Frame-Options: ');
         
         if ($f3->exists($this->session_error_key)) {
-            throw new Exception($f3->get($this->session_error_key));
+            //throw new Exception($f3->get($this->session_error_key));
+            $f3->set("json", $f3->get($this->session_error_key));
+            $template = new Template_json;
+            echo $template->render("callback.js", 'text/javascript');
+            return;
         }
         
         if ($f3->exists($this->session_key) === FALSE) {

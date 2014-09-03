@@ -120,15 +120,23 @@ class PFH_File_model {
      * 移動檔案
      * 
      * @param Object $f3
-     * @param String $filepath
+     * @param String $from_filepath 來源檔案
      * @param String $md5
      */
-    static private function move_uploaded_file($f3, $filepath, $md5) {
-        $file_path = self::get_file_path_from_md5($f3, $md5);
-
-        if (is_file($file_path) === FALSE) {
-            move_uploaded_file($filepath,
-                 $file_path);
+    static private function move_uploaded_file($f3, $from_filepath, $md5) {
+        $target_file_path = self::get_file_path_from_md5($f3, $md5);
+        
+        if (is_file($target_file_path) === FALSE) {
+            move_uploaded_file($from_filepath,
+                 $target_file_path);
+            
+            if (is_file($target_file_path) === FALSE) {
+                rename($from_filepath, $target_file_path);
+            }
+        }
+        
+        if (is_file($from_filepath)) {
+            unlink($from_filepath);
         }
     }
 
