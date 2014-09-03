@@ -19,6 +19,9 @@ class File_host {
      */
     public function upload($f3) {
         
+        // 要設定這個header，才能做iframe
+        header('X-Frame-Options: ');
+        
         /*
         if ($f3->exists($this->session_key)) {
             $template = new Template_json;
@@ -111,6 +114,9 @@ class File_host {
     
     public function get_link($f3) {
         
+        // 要設定這個header，才能做iframe
+        header('X-Frame-Options: ');
+        
         if ($f3->exists($this->session_error_key)) {
             throw new Exception($f3->get($this->session_error_key));
         }
@@ -130,8 +136,8 @@ class File_host {
         $f3->set("json", $result);
         
         $template = new Template_json;
-        //echo $template->render("callback.js", 'text/javascript');
-        echo $template->render("callback.js");
+        echo $template->render("callback.js", 'text/javascript');
+        //echo $template->render("callback.js");
     }
     
     // ------------------------------------------------
