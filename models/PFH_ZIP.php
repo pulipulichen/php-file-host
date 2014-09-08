@@ -50,9 +50,17 @@ class PFH_ZIP {
             
             $zip = new ZipArchive();
             //echo $path;
-            $zip->open($path);
+            $res = $zip->open($path);
             //$zip->extractTo($tmp_file);
-            $zip->extractTo($tmp_dir);
+
+            if ($res === true) {
+                $zip->extractTo($tmp_dir);
+                $zip->close();
+            }
+            else {
+                self::create($f3, $md5);
+                return self::read($f3, $md5);
+            }
         } 
 
         return $path_temp;
