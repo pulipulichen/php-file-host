@@ -105,6 +105,9 @@ class PFH_File_model {
             // 移動檔案
             self::move_uploaded_file($f3, $upload_file["tmp_name"], $md5);
             
+            // 變成壓縮檔案
+            PFH_ZIP::create($f3, $md5);
+            
         }   //if (is_null($file)) {
         
         // 記錄上傳的資料
@@ -124,7 +127,7 @@ class PFH_File_model {
      * @param String $md5
      */
     static private function move_uploaded_file($f3, $from_filepath, $md5) {
-        $target_file_path = self::get_file_path_from_md5($f3, $md5);
+        $target_file_path = PFH_MD5::get_file_path($f3, $md5);
         
         if (is_file($target_file_path) === FALSE) {
             move_uploaded_file($from_filepath,
@@ -138,34 +141,6 @@ class PFH_File_model {
         if (is_file($from_filepath)) {
             unlink($from_filepath);
         }
-    }
-
-
-    /**
-     * 從MD5取得檔案路徑
-     * 
-     * @param Object $f3
-     * @param String $md5
-     * @return string
-     * @author Pulipuli Chen <pulipuli.chen@gmail.com>
-     * @version 20140819
-     */
-    static function get_file_path_from_md5($f3, $md5) {
-        $path1 = substr($md5, 0, 2);
-        $path2 = substr($md5, 2, 2);
-        $file_name = substr($md5, 4);
-        
-        
-        $file_dir = $f3->get("UPLOADS") 
-                . $path1 . "/"
-                . $path2 . "/";
-        
-        if (is_dir($file_dir) === FALSE) {
-            mkdir($file_dir, 0700, true);
-        }
-        $file_path = $file_dir . $file_name;
-        
-        return $file_path;
     }
     
     /**
