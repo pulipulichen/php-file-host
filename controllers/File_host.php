@@ -172,9 +172,9 @@ class File_host {
     private function _validate_file($f3, $file) {
         
         // 檢查檔案大小
-        if ($this->_validate_file_size($f3, $file) === FALSE) {
-            return FALSE;
-        }
+        //if ($this->_validate_file_size($f3, $file) === FALSE) {
+        //    return FALSE;
+        //}
         
         // 檢查檔案類型
         $mine = $file['type'];
@@ -188,8 +188,18 @@ class File_host {
         $result = FALSE;
         foreach ($acceptable_mine AS $a_mine) {
             $a_mine = trim($a_mine);
+            $a_file_size = $f3->get("UPLOAD.filesize");
+            
+            // 如果有尺寸的限制
+            if (strpos($a_mine, "|") !== FALSE) {
+                $a_file_size = substr($a_mine, strpos($a_mine, "|") + 1);
+                $a_mine = substr($a_mine, 0, strpos($a_mine, "|"));
+            }
+            
             if ($a_mine === $mine) {
-                $result = TRUE;
+                if ($this->_validate_file_size($f3, $file, $a_file_size)) {
+                    $result = TRUE;
+                }
                 break;
             }
         }
@@ -218,19 +228,22 @@ class File_host {
         */
     }
     
-    private function _validate_file_size($f3, $file) {
-        
-        // 沒設定不用檢查
-        if ($f3->exists("UPLOAD.filesize") === FALSE
-                || $f3->get("UPLOAD.filesize") < 1) {
-            return TRUE;
-        }
+    private function _validate_file_size($f3, $file, $filesize = NULL) {
         
         // 檢查檔案
-        $filesize = $f3->get("UPLOAD.filesize");
+        if (is_null($filesize)) {
+            
+            // 沒設定不用檢查
+            if ($f3->exists("UPLOAD.filesize") === FALSE
+                    || $f3->get("UPLOAD.filesize") < 1) {
+                return TRUE;
+            }
+
+            $filesize = $f3->get("UPLOAD.filesize");
+        }
         $filesize = PFH_File_helper::convert_filesize_in_bytes($filesize);
         if ($file['size'] > $filesize) {
-            $message = "file size too large";
+            $message = "Your file size " . $file['size'] . " is too large. This type's size limitation is " . $filesize;
             $f3->set($this->session_error_key, $message);
             throw new Exception($message);
             return FALSE;

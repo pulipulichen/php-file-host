@@ -23,10 +23,7 @@
             $filesize = strtoupper($filesize);
             $footer_len = 0;
             $multiple = 0;
-            if (strpos($filesize, "B") !== FALSE) {
-                $footer_len = 1;
-            }
-            else if (strpos($filesize, "KB") !== FALSE) {
+            if (strpos($filesize, "KB") !== FALSE) {
                 $footer_len = 2;
                 $multiple = 1;
             }
@@ -65,6 +62,9 @@
             else if (strpos($filesize, "P") !== FALSE) {
                 $footer_len = 1;
                 $multiple = 5;
+            }
+            else if (strpos($filesize, "B") !== FALSE) {
+                $footer_len = 1;
             }
             
             $filesize = substr($filesize, 0, strlen($filesize) - $footer_len);
