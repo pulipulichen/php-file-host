@@ -167,8 +167,8 @@ class File_host {
         //$json = json_encode($result);
         $f3->set("json", $result);
         
-        echo $result;
-        return;
+        //echo $result;
+        //return;
         
         $template = new Template_json;
         echo $template->render("callback.js", 'text/javascript');
