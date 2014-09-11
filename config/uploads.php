@@ -58,3 +58,9 @@ $f3->set("UPLOAD.mimetype", array(
 // 允許上傳的來源，*設定表示任何網址都可以上傳
 // 限定http://example.org /^http:\/\/example1.org/
 $f3->set("UPLOAD.origin", "*");
+
+// 選項：
+// FALSE: 不壓縮
+// "ZIP": Zip壓縮
+// "BZIP": BZip2壓縮
+$f3->set("UPLOAD.compression", "zip");
