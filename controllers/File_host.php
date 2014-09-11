@@ -102,7 +102,9 @@ class File_host {
             $bean = PFH_File_model::create_from_upload($f3, $file);
             // 新增KEY到SESSION之中
             $f3->set($this->session_key, $bean->id);
-            $f3->clear($this->session_error_key);
+            if ($f3->exists($this->session_error_key)) {
+                $f3->clear($this->session_error_key);
+            }
         }
         else {
             // 從SESSION刪除
