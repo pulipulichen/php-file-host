@@ -14,12 +14,12 @@ class PFH_Archive {
         "BZIP" => "bz2"
     );
 
-    static public function create($f3, $md5) {
+    static public function create($f3, $md5, $filename) {
         
         $compression = $f3->get("UPLOAD.compression");
         
-        $path = PFH_MD5::get_file_path($f3, $md5);
-        $file_name = PFH_MD5::get_file_name($f3, $md5);
+        $path = PFH_MD5::get_file_path($f3, $md5, $filename);
+        $file_name = PFH_MD5::get_file_name($f3, $md5, $filename);
         $path_archive = $path . "." . self::$ext[$compression];
         
         //echo $path_archive;
@@ -65,13 +65,13 @@ class PFH_Archive {
         return $path_archive;
     }
     
-    static public function read($f3, $md5) {
+    static public function read($f3, $md5, $filename) {
         
-        $path_temp = PFH_MD5::get_tmp_file_path($f3, $md5);
+        $path_temp = PFH_MD5::get_tmp_file_path($f3, $md5, $filename);
         
         if (is_file($path_temp) === FALSE) {
 
-            $path = PFH_MD5::get_file_path($f3, $md5);
+            $path = PFH_MD5::get_file_path($f3, $md5, $filename);
             $tmp_dir = PFH_MD5::get_tmp_dir_path($f3, $md5);
             //$tmp_file = PFH_MD5::get_tmp_file_path($f3, $md5);
             

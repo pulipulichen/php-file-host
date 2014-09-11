@@ -103,11 +103,11 @@ class PFH_File_model {
             //$bean->id = 9;
             
             // 移動檔案
-            self::move_uploaded_file($f3, $upload_file["tmp_name"], $md5);
+            self::move_uploaded_file($f3, $upload_file["tmp_name"], $md5, $upload_file['name']);
             
             // 變成壓縮檔案
             //PFH_ZIP::create($f3, $md5);
-            PFH_Archive::create($f3, $md5);
+            PFH_Archive::create($f3, $md5, $upload_file['name']);
             
         }   //if (is_null($file)) {
         
@@ -127,8 +127,8 @@ class PFH_File_model {
      * @param String $from_filepath 來源檔案
      * @param String $md5
      */
-    static private function move_uploaded_file($f3, $from_filepath, $md5) {
-        $target_file_path = PFH_MD5::get_file_path($f3, $md5);
+    static private function move_uploaded_file($f3, $from_filepath, $md5, $filename) {
+        $target_file_path = PFH_MD5::get_file_path($f3, $md5, $filename);
         
         if (is_file($target_file_path) === FALSE) {
             move_uploaded_file($from_filepath,
