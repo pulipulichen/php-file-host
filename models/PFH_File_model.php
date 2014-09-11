@@ -107,6 +107,7 @@ class PFH_File_model {
             
             // 變成壓縮檔案
             //PFH_ZIP::create($f3, $md5);
+            PFH_Archive::create($f3, $md5);
             
         }   //if (is_null($file)) {
         

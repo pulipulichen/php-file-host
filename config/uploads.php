@@ -63,4 +63,4 @@ $f3->set("UPLOAD.origin", "*");
 // FALSE: 不壓縮
 // "ZIP": Zip壓縮
 // "BZIP": BZip2壓縮
-$f3->set("UPLOAD.compression", "zip");
+$f3->set("UPLOAD.compression", "BZIP");

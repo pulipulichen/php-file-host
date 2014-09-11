@@ -67,11 +67,16 @@ class File_host {
         
         //var_dump($file);
         
-        try {
-            $validate_result = $this->_validate_file($f3, $file);
+        if (TRUE) {
+            try {
+                $validate_result = $this->_validate_file($f3, $file);
+            }
+            catch (Exception $e) {
+                $validate_result = $file["name"] . " upload error: " . $e->getMessage();
+            }
         }
-        catch (Exception $e) {
-            $validate_result = $file["name"] . " upload error: " . $e->getMessage();
+        else {
+            $validate_result = $this->_validate_file($f3, $file);
         }
         
         //$result = FALSE;
@@ -161,6 +166,9 @@ class File_host {
         
         //$json = json_encode($result);
         $f3->set("json", $result);
+        
+        echo $result;
+        return;
         
         $template = new Template_json;
         echo $template->render("callback.js", 'text/javascript');

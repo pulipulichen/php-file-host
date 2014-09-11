@@ -20,7 +20,8 @@ class File_manage {
         $md5 = $file->md5;
         //$filepath = PFH_MD5::get_file_path($f3, $md5);
         //$filepath = PFH_ZIP::read($f3, $md5);
-        $filepath = PFH_MD5::get_file_path($f3, $md5);
+        //$filepath = PFH_MD5::get_file_path($f3, $md5);
+        $filepath = PFH_Archive::read($f3, $md5);
         
         $action = "download";
         PFH_Log_model::create_log($f3, $file, $action);
