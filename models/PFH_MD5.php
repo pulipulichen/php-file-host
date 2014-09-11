@@ -82,7 +82,7 @@ class PFH_MD5 {
         $path1 = substr($md5, 0, 2);
         $path2 = substr($md5, 2, 2);
         
-        $file_dir = sys_get_temp_dir()
+        $file_dir = sys_get_temp_dir() . "/"
         //$file_dir = $f3->get("UPLOADS") . "tmp/"
                 . "PFH/"
                 . $path1 . "/"
