@@ -106,7 +106,7 @@ class PFH_File_model {
             self::move_uploaded_file($f3, $upload_file["tmp_name"], $md5);
             
             // 變成壓縮檔案
-            PFH_ZIP::create($f3, $md5);
+            //PFH_ZIP::create($f3, $md5);
             
         }   //if (is_null($file)) {
         

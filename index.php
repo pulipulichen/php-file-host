@@ -5,7 +5,8 @@ $f3 = require('lib/base.php');
 // 設定檔案
 $f3->config('config/globals.ini');
 $f3->config('config/database.ini');
-$f3->config('config/uploads.ini');
+//$f3->config('config/uploads.ini');
+require_once("config/uploads.php");
 $f3->config('config/routes.ini');
 
 // 資料庫
