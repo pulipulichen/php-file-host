@@ -67,3 +67,8 @@ $f3->set("UPLOAD.origin", "*");
 // "ZIP": Zip壓縮
 // "BZIP": BZip2壓縮
 $f3->set("UPLOAD.compression", "BZIP");
+
+/**
+ * 快取的限制檔案大小
+ */
+$f3->set("UPLOAD.cache_total_size_limit", "10GB");

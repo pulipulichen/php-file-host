@@ -95,7 +95,6 @@ class PFH_MD5 {
         $file_dir .= "PFH/"
                 . $path1 . "/"
                 . $path2 . "/";
-        
         if (is_dir($file_dir) === FALSE) {
             mkdir($file_dir, 0700, true);
         }

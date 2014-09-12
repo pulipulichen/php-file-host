@@ -62,12 +62,16 @@ class PFH_Archive {
         
         // 不重新命名
         //rename($path_archive, $path);
+        
         return $path_archive;
     }
     
     static public function read($f3, $md5, $filename) {
         
         $path_temp = PFH_MD5::get_tmp_file_path($f3, $md5, $filename);
+        
+        // 移除多餘的快取資料
+        PFH_Archive_cache::clean($f3, $path_temp);
         
         if (is_file($path_temp) === FALSE) {
 
@@ -100,8 +104,11 @@ class PFH_Archive {
                 bzclose ($in_file); 
                 fclose ($out_file); 
             }
-                
         }
+        
+        // 加入快取資料
+        PFH_Archive_cache::add($f3, $path_temp);   
+        
         return $path_temp;
     }
 }

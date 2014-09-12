@@ -50,10 +50,6 @@ class Upload_form {
         
         $template = new Template;
         echo $template->render("upload_form_simple.html");
-        
-        //echo $f3->get("URI");
-        
-        //echo "upload form " . $id;
     }
     
     private function get_how_to_use_content($f3) {
